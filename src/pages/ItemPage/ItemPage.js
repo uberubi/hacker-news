@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getItem } from "../../redux/actions/item-actions";
 import Item from "../../components/Item/Item";
@@ -11,14 +11,15 @@ const ItemPage = ({ ...props }) => {
   const dispatch = useDispatch();
   const itemId = props.match.params.id;
 
-  useEffect(() => {
-    fetchItem(itemId);
-  }, []);
-
-  async function fetchItem(itemId) {
+  const fetchItem = useCallback(async () => {
+    setLoading(true);
     await Promise.resolve(dispatch(getItem(itemId)));
     setLoading(false);
-  }
+  }, [dispatch, itemId]);
+
+  useEffect(() => {
+    fetchItem(itemId);
+  }, [fetchItem, itemId]);
 
   return (
     <>
