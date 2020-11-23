@@ -1,38 +1,32 @@
 import * as axios from "axios";
 
 const instance = axios.create({
-  baseURL: 'https://hacker-news.firebaseio.com/v0/'
-})
+  baseURL: "https://hacker-news.firebaseio.com/v0/",
+});
 
 export const hackerNewsAPI = {
-  getLatestItemsIds() {
-    return instance.get(
-      "newstories.json?print=pretty&orderBy=%22$key%22&limitToFirst=100"
-    );
-  },
   async getItemById(id) {
-    const response = await instance.get(
-      `item/${id}.json?print=pretty`
+    const item = await instance.get(`item/${id}.json?print=pretty`);
+
+    return item.data;
+  },
+  async getLatestItemsById(num) {
+    const itemsIds = await instance.get(
+      `newstories.json?print=pretty&orderBy=%22$key%22&limitToFirst=${num}`
     );
-    
-    const item = response.data
-    return item
-  },
-  async getLatestItemsById() {
-    const response = await this.getLatestItemsIds()
-    const ids =  response.data
     const items = await Promise.all(
-      ids.map(id => this.getItemById(id))
-    )
-    return items
+      itemsIds.data.map((id) => this.getItemById(id))
+    );
+    return items;
   },
-  async getItemCommentsById(id, nestedComments = []) {
-    const comment = await this.getItemById(id)
+  async getItemCommentsById(id) {
+    const comment = await this.getItemById(id);
     if (comment.kids) {
-      const kids = await Promise.all(
-        comment.kids.map(_id => this.getItemCommentsById(_id))
-      )
-      return {...comment, kids}
-    } else return comment
+      let kids = await Promise.all(
+        comment.kids.map((_id) => this.getItemCommentsById(_id))
+      );
+      kids = kids.filter((kid) => !kid.hasOwnProperty("deleted"));
+      return { ...comment, kids };
+    } else return comment;
   },
 };

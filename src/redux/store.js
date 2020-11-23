@@ -1,8 +1,8 @@
 import { combineReducers, createStore, applyMiddleware } from "redux";
 import thunkMiddleware from "redux-thunk";
-import commentsReducer from "./comments-reducer";
-import homeReducer from "./home-reducer";
-import itemReducer from "./item-reducer";
+import commentsReducer from "./reducers/comments-reducer";
+import homeReducer from "./reducers/home-reducer";
+import itemReducer from "./reducers/item-reducer";
 
 let reducers = combineReducers({
   home: homeReducer,

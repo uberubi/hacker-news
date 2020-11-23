@@ -1,23 +1,33 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Grid, Card } from "semantic-ui-react";
+import { Card } from "semantic-ui-react";
+import timeParser from "../../utils/time-parser";
 
-import dayjs from "dayjs";
-import LocalizedFormat from "dayjs/plugin/localizedFormat";
-dayjs.extend(LocalizedFormat); // extend dayjs with LocalizedFormat plugin
-
-const Item = ({ id, by, time, title, score, url }) => {
+const Item = ({ id, by, time, title, score, descendants, url, loading }) => {
   return (
-    <Grid.Row>
-      <Card fluid link as={Link} to={`/item/${id}`} color="red">
-        <Card.Content>
-          <Card.Header>{title}</Card.Header>
-          <Card.Meta>{score}</Card.Meta>
-          <Card.Meta>{dayjs.unix(time).format("LLL")}</Card.Meta>
-          <Card.Description>{by}</Card.Description>
-        </Card.Content>
-      </Card>
-    </Grid.Row>
+    <>
+      {!loading && (
+        <Card
+          fluid
+          {...(!url && { link: true, as: Link, to: `/item/${id}` })}
+          color="red"
+        >
+          <Card.Content>
+            <Card.Header>{title}</Card.Header>
+            {url && (
+              <Card.Description>
+                <a href={url}>{url}</a>
+              </Card.Description>
+            )}
+            <Card.Description>
+              by {by} {timeParser(time)}
+            </Card.Description>
+            <Card.Meta>score: {score}</Card.Meta>
+            <Card.Meta>Comments: {descendants}</Card.Meta>
+          </Card.Content>
+        </Card>
+      )}
+    </>
   );
 };
 export default Item;

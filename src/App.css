@@ -4,3 +4,7 @@
   font-size: 2rem;
   margin-top: 10px;
 }
+
+body {
+  background: #f9f9f9 !important;
+}
