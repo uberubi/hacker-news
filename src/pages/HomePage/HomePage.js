@@ -24,7 +24,7 @@ const HomePage = () => {
   useEffect(() => {
     fetchItems();
   }, [fetchItems]);
-console.log(loading)
+  
   return (
     <Grid columns={3}>
       <Grid.Row>
