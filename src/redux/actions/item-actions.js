@@ -11,7 +11,6 @@ export const getItem = (id) => async (dispatch) => {
   if (window.store.getState().item.item.id === +id) return;
   dispatch(setItemLoading(true));
   const item = await hackerNewsAPI.getItemById(id);
-  console.log(window.store.getState());
   dispatch(setItem(item));
   dispatch(setItemLoading(false));
 };

@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getItem } from "../../redux/actions/item-actions";
 import Item from "../../components/Item/Item";
 import Comments from "../../components/Comments/Comments";
-import Spinner from "../../components/Spinner/Spinner";
+
 
 const ItemPage = ({ ...props }) => {
   const [itemId] = useState(props.match.params.id);
