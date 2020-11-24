@@ -1,7 +1,7 @@
 import "./App.css";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Header from "./components/Header/Header";
-import Home from "./pages/Home/Home";
+import HomePage from "./pages/HomePage/HomePage";
 import SingleItem from "./pages/ItemPage/ItemPage";
 import { Provider } from "react-redux";
 import store from "./redux/store";
@@ -14,7 +14,7 @@ function App() {
       <Provider store={store}>
         <Container>
           <Header />
-          <Route exact path="/" component={Home} />
+          <Route exact path="/" component={HomePage} />
           <Route exact path="/item/:id" component={SingleItem} />
         </Container>
       </Provider>

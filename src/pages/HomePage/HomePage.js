@@ -6,7 +6,7 @@ import Item from "../../components/Item/Item";
 import Spinner from "../../components/Spinner/Spinner";
 import RefreshButton from "../../components/RefreshButton/RefreshButton";
 
-const Home = () => {
+const HomePage = () => {
   const [loading, setLoading] = useState(true);
   const items = useSelector((state) => state.home.items);
   const dispatch = useDispatch();
@@ -53,4 +53,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default HomePage;

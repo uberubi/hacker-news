@@ -30,8 +30,9 @@ const Item = ({
               </Card.Description>
             )}
             {text && (
-              <Card.Description dangerouslySetInnerHTML={{ __html: text }}>
-              </Card.Description>
+              <Card.Description
+                dangerouslySetInnerHTML={{ __html: text }}
+              ></Card.Description>
             )}
 
             <Card.Description>

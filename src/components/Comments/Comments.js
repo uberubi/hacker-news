@@ -18,14 +18,14 @@ const Comments = ({ itemId, descendants }) => {
     await Promise.resolve(dispatch(getComments(itemId)));
     setLoading(false);
   }, [dispatch, itemId]);
-
+  
   useEffect(() => {
     fetchComments();
     const refreshInterval = setInterval(() => {
       fetchComments();
     }, 60000);
     return () => clearInterval(refreshInterval);
-  }, [fetchComments]);
+  }, [fetchComments, descendants]);
 
   return (
     <>

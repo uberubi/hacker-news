@@ -7,9 +7,9 @@ import Spinner from "../../components/Spinner/Spinner";
 
 const ItemPage = ({ ...props }) => {
   const [loading, setLoading] = useState(true);
+  const [itemId] = useState(props.match.params.id)
   const item = useSelector((state) => state.item.item);
   const dispatch = useDispatch();
-  const itemId = props.match.params.id;
 
   const fetchItem = useCallback(async () => {
     setLoading(true);
