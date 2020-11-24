@@ -37,7 +37,9 @@ const SingleComment = ({ comment }) => {
                     : { color: "grey", cursor: "default" }
                 }
                 onClick={handleCollapseComments}
-              >{`${collapsed ? 'View' : 'Hide'} ${repliesCount === 1 ? 'Reply' : 'Replies'}  (${repliesCount})`}</Comment.Action>
+              >{`${collapsed ? "View" : "Hide"} ${
+                repliesCount === 1 ? "Reply" : "Replies"
+              }  (${repliesCount})`}</Comment.Action>
             </Comment.Actions>
           </Comment.Content>
           <Comment.Group collapsed={collapsed}>{nestedComments}</Comment.Group>

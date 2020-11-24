@@ -1,10 +1,21 @@
 import { hackerNewsAPI } from "../../api/api";
-import { SET_ITEMS } from "../constants/constants";
+import { SET_ITEMS, SET_ITEMS_LOADING } from "../constants/constants";
 
 export const setItems = (items) => ({ type: SET_ITEMS, items });
 
-export const getLatestItemsById = (num) => async (dispatch) => {
-  const response = await hackerNewsAPI.getLatestItemsById(num);
+const setItemsLoading = (loading) => ({ type: SET_ITEMS_LOADING, loading });
 
-  dispatch(setItems(response));
+export const getLatestItemsById = (num) => async (dispatch) => {
+  if (window.store.getState().home.items.length > 0) return;
+  dispatch(setItemsLoading(true));
+  const items = await hackerNewsAPI.getLatestItemsById(num);
+  dispatch(setItemsLoading(false));
+  dispatch(setItems(items));
+};
+
+export const refreshItemsById = (num) => async (dispatch) => {
+  dispatch(setItemsLoading(true));
+  const items = await hackerNewsAPI.getLatestItemsById(num);
+  dispatch(setItemsLoading(false));
+  dispatch(setItems(items));
 };

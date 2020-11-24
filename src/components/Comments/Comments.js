@@ -1,53 +1,48 @@
-import React, { useState, useEffect, useCallback } from "react";
+import { useEffect, useCallback } from "react";
 import { Header } from "semantic-ui-react";
 import { useSelector, useDispatch } from "react-redux";
-import { getComments } from "../../redux/actions/comments-actions";
+import {
+  getComments,
+  clearComments,
+} from "../../redux/actions/comments-actions";
 import SingleComment from "./SingleComment/SingleComment";
-import Spinner from "../Spinner/Spinner";
 import RefreshButton from "../RefreshButton/RefreshButton";
 import BackButton from "../BackButton/BackButton";
 
 const Comments = ({ itemId, descendants }) => {
-  const [loading, setLoading] = useState(true);
-
-  const comments = useSelector((state) => state.comments.comments);
+  const { comments, loading } = useSelector((state) => state.comments);
   const dispatch = useDispatch();
 
   const fetchComments = useCallback(async () => {
-    setLoading(true);
-    await Promise.resolve(dispatch(getComments(itemId)));
-    setLoading(false);
+    dispatch(getComments(itemId));
   }, [dispatch, itemId]);
-  
+
   useEffect(() => {
     fetchComments();
-    const refreshInterval = setInterval(() => {
-      fetchComments();
-    }, 60000);
-    return () => clearInterval(refreshInterval);
-  }, [fetchComments, descendants]);
+    return () => dispatch(clearComments());
+  }, [fetchComments, dispatch]);
 
   return (
     <>
-      <Header as="h4" dividing >
-        <div style={{ marginBottom: "20px" }}>
-          <BackButton />
-          <RefreshButton
-            callback={fetchComments}
-            loading={loading}
-          />
-        </div>
-        <div>{descendants === 0 ? "No comments yet.." : `Comments (${descendants})`}</div>
-      </Header>
-
-      {loading ? (
-        <Spinner />
-      ) : (
-        comments.kids &&
-        comments.kids.map((comment) => (
-          <SingleComment key={comment.id} comment={comment} />
-        ))
-      )}
+      <>
+        <Header as="h4" dividing>
+          <div style={{ marginBottom: "20px" }}>
+            <BackButton />
+            <RefreshButton callback={fetchComments} loading={loading} />
+          </div>
+          {loading ? (
+            <p>loading...</p>
+          ) : descendants ? (
+            `Comments (${descendants})`
+          ) : (
+            "No comments yet :("
+          )}
+        </Header>
+        {comments.kids &&
+          comments.kids.map((comment) => (
+            <SingleComment key={comment.id} comment={comment} />
+          ))}
+      </>
     </>
   );
 };

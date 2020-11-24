@@ -1,3 +1,8 @@
 export const SET_ITEM = "SET_ITEM";
+export const CLEAR_ITEM = "CLEAR_ITEM";
 export const SET_ITEMS = "SET_ITEMS";
 export const SET_COMMENTS = "SET_COMMENTS";
+export const CLEAR_COMMENTS = "CLEAR_COMMENTS";
+export const SET_ITEMS_LOADING = "SET_ITEMS_LOADING";
+export const SET_ITEM_LOADING = "SET_ITEM_LOADING";
+export const SET_COMMENTS_LOADING = "SET_COMMENTS_LOADING";

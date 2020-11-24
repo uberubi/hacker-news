@@ -1,7 +1,7 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import { Card } from "semantic-ui-react";
 import timeParser from "../../utils/time-parser";
+import ItemSkeleton from "./ItemSkeleton/ItemSkeleton";
 
 const Item = ({
   id,
@@ -16,7 +16,9 @@ const Item = ({
 }) => {
   return (
     <>
-      {!loading && (
+      {loading ? (
+        <ItemSkeleton url={url} text={text} />
+      ) : (
         <Card
           fluid
           {...(!url && { link: true, as: Link, to: `/item/${id}` })}

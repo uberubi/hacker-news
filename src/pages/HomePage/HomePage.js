@@ -1,54 +1,49 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Grid } from "semantic-ui-react";
-import { useSelector, useDispatch } from "react-redux";
-import { getLatestItemsById } from "../../redux/actions/home-actions";
 import Item from "../../components/Item/Item";
-import Spinner from "../../components/Spinner/Spinner";
 import RefreshButton from "../../components/RefreshButton/RefreshButton";
+import {
+  refreshItemsById,
+  getLatestItemsById,
+} from "../../redux/actions/home-actions";
 
 const HomePage = () => {
-  const [loading, setLoading] = useState(true);
-  const items = useSelector((state) => state.home.items);
+  const { items, loading } = useSelector((state) => state.home);
   const dispatch = useDispatch();
 
-  const fetchItems = useCallback(async () => {
-    setLoading(true);
-    await Promise.resolve(dispatch(getLatestItemsById(100)));
-    setLoading(false);
+  const refreshItems = useCallback(() => {
+    dispatch(refreshItemsById(100));
+  }, [dispatch]);
+
+  const fetchItems = useCallback(() => {
+    dispatch(getLatestItemsById(100));
   }, [dispatch]);
 
   useEffect(() => {
     fetchItems();
-    const refreshInterval = setInterval(() => {
-      fetchItems();
-    }, 60000);
-    return () => clearInterval(refreshInterval);
   }, [fetchItems]);
 
   return (
     <Grid columns={3}>
-      {loading ? (
-        <Spinner />
-      ) : (
-        <>
-          <Grid.Row>
-            <RefreshButton callback={fetchItems} loading={loading} />
-          </Grid.Row>
-          <Grid.Row>
-            {items.map((item) => (
-              <Item
-                key={item.id}
-                id={item.id}
-                by={item.by}
-                time={item.time}
-                score={item.score}
-                title={item.title}
-                descendants={item.descendants}
-              />
-            ))}
-          </Grid.Row>
-        </>
-      )}
+      <Grid.Row>
+        <RefreshButton callback={refreshItems} loading={loading} />
+      </Grid.Row>
+      <Grid.Row>
+        {items &&
+          items.map((item) => (
+            <Item
+              key={item.id}
+              id={item.id}
+              by={item.by}
+              time={item.time}
+              score={item.score}
+              title={item.title}
+              descendants={item.descendants}
+              loading={loading}
+            />
+          ))}
+      </Grid.Row>
     </Grid>
   );
 };
