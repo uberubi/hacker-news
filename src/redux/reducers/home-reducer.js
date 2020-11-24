@@ -2,7 +2,7 @@ import { SET_ITEMS, SET_ITEMS_LOADING } from "../constants/constants";
 
 let initialState = {
   items: [],
-  loading: true,
+  loading: false,
 };
 
 const homeReducer = (state = initialState, action) => {
