@@ -5,8 +5,8 @@ import timeParser from "../../../utils/time-parser";
 const SingleComment = ({ comment }) => {
   const [collapsed, setCollapsed] = useState(true);
 
-  function handleCheckbox() {
-    if (singleCommentsCount !== "0") {
+  function handleCollapseComments() {
+    if (repliesCount !== 0) {
       setCollapsed(!collapsed);
     }
   }
@@ -14,8 +14,8 @@ const SingleComment = ({ comment }) => {
     return <SingleComment key={_comment.id} comment={_comment} />;
   });
 
-  const singleCommentsCount =
-    comment.kids?.length === undefined ? "0" : comment.kids?.length;
+  const repliesCount =
+    comment.kids?.length === undefined ? 0 : comment.kids?.length;
 
   return (
     <>
@@ -32,12 +32,12 @@ const SingleComment = ({ comment }) => {
             <Comment.Actions>
               <Comment.Action
                 style={
-                  singleCommentsCount > 0
+                  repliesCount > 0
                     ? { color: "red" }
                     : { color: "grey", cursor: "default" }
                 }
-                onClick={handleCheckbox}
-              >{`Comments ${singleCommentsCount}`}</Comment.Action>
+                onClick={handleCollapseComments}
+              >{`${collapsed ? 'View' : 'Hide'} ${repliesCount === 1 ? 'Reply' : 'Replies'}  (${repliesCount})`}</Comment.Action>
             </Comment.Actions>
           </Comment.Content>
           <Comment.Group collapsed={collapsed}>{nestedComments}</Comment.Group>

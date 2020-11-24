@@ -3,7 +3,17 @@ import { Link } from "react-router-dom";
 import { Card } from "semantic-ui-react";
 import timeParser from "../../utils/time-parser";
 
-const Item = ({ id, by, time, title, score, descendants, url, loading }) => {
+const Item = ({
+  id,
+  by,
+  time,
+  title,
+  score,
+  descendants,
+  url,
+  loading,
+  text,
+}) => {
   return (
     <>
       {!loading && (
@@ -19,8 +29,13 @@ const Item = ({ id, by, time, title, score, descendants, url, loading }) => {
                 <a href={url}>{url}</a>
               </Card.Description>
             )}
+            {text && (
+              <Card.Description dangerouslySetInnerHTML={{ __html: text }}>
+              </Card.Description>
+            )}
+
             <Card.Description>
-              by {by} {timeParser(time)}
+              by <b>{by}</b> {timeParser(time)}
             </Card.Description>
             <Card.Meta>score: {score}</Card.Meta>
             <Card.Meta>Comments: {descendants}</Card.Meta>

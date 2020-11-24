@@ -4,6 +4,7 @@ let initialState = {
   comments: [],
 };
 
+
 const commentsReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_COMMENTS:

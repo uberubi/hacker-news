@@ -6,17 +6,18 @@ const instance = axios.create({
 
 export const hackerNewsAPI = {
   async getItemById(id) {
-    const item = await instance.get(`item/${id}.json?print=pretty`);
-
+    const item = await instance.get(`item/${id}.json`);
     return item.data;
   },
   async getLatestItemsById(num) {
     const itemsIds = await instance.get(
-      `newstories.json?print=pretty&orderBy=%22$key%22&limitToFirst=${num}`
-    );
-    const items = await Promise.all(
+      `newstories.json?orderBy=%22$key%22&limitToFirst=${num}`
+    )
+    let items = await Promise.all(
       itemsIds.data.map((id) => this.getItemById(id))
     );
+      items = items.filter((item) => item !== null)
+    
     return items;
   },
   async getItemCommentsById(id) {
@@ -24,7 +25,7 @@ export const hackerNewsAPI = {
     if (comment.kids) {
       let kids = await Promise.all(
         comment.kids.map((_id) => this.getItemCommentsById(_id))
-      );
+      )
       kids = kids.filter((kid) => !kid.hasOwnProperty("deleted"));
       return { ...comment, kids };
     } else return comment;

@@ -34,6 +34,7 @@ const ItemPage = ({ ...props }) => {
             time={item.time}
             score={item.score}
             title={item.title}
+            text={item.text}
             url={item.url}
             descendants={item.descendants}
             loading={loading}
