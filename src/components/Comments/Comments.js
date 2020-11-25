@@ -21,7 +21,6 @@ const Comments = ({ itemId, descendants }) => {
     fetchComments();
     return () => dispatch(clearComments());
   }, [fetchComments, dispatch]);
-
   return (
     <>
       <>

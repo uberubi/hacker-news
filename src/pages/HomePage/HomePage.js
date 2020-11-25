@@ -32,7 +32,7 @@ const HomePage = () => {
       </Grid.Row>
       <Grid.Row>
         {loading
-          ? Array.from(Array(5)).map((el, i) => <ItemSkeleton key={i}/>)
+          ? Array.from(Array(100)).map((el, i) => <ItemSkeleton key={i}/>)
           : items.map((item) => (
               <Item
                 key={item.id}

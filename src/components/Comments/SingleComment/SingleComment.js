@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Comment } from "semantic-ui-react";
 import timeParser from "../../../utils/time-parser";
 
