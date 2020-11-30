@@ -16,7 +16,7 @@ const SingleComment = ({ comment }) => {
 
   const repliesCount =
     comment.kids?.length === undefined ? 0 : comment.kids?.length;
-
+    
   return (
     <>
       <Comment.Group style={{ maxWidth: "100%" }}>

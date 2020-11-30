@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Button, Icon } from "semantic-ui-react";
 
 const RefreshButton = ({ callback, loading }) => {
+
   useEffect(() => {
     const refreshInterval = setInterval(() => {
       callback();

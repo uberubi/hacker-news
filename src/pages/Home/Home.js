@@ -1,20 +1,21 @@
 import { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Grid } from "semantic-ui-react";
-import Item from "../../components/Item/Item";
-import ItemSkeleton from "../../components/Item/ItemSkeleton/ItemSkeleton";
+import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
+import ItemCard from "../../components/ItemCard/ItemCard";
+import ItemCardSkeleton from "../../components/ItemCard/ItemCardSkeleton/ItemCardSkeleton";
 import RefreshButton from "../../components/RefreshButton/RefreshButton";
-import {
-  refreshItemsById,
-  getLatestItemsById,
-} from "../../redux/actions/home-actions";
+import { getLatestItemsById } from "../../redux/actions/homeActions";
 
-const HomePage = () => {
+const Home = () => {
   const { items, loading } = useSelector((state) => state.home);
+  const { error } = useSelector((state) => state.errors);
+
   const dispatch = useDispatch();
 
   const refreshItems = useCallback(() => {
-    dispatch(refreshItemsById(100));
+    const isRefresh = true;
+    dispatch(getLatestItemsById(100, isRefresh));
   }, [dispatch]);
 
   const fetchItems = useCallback(() => {
@@ -24,17 +25,22 @@ const HomePage = () => {
   useEffect(() => {
     fetchItems();
   }, [fetchItems]);
-  
+
   return (
     <Grid columns={3}>
       <Grid.Row>
         <RefreshButton callback={refreshItems} loading={loading} />
       </Grid.Row>
+      {error && (
+        <Grid.Row>
+          <ErrorMessage error={error} />
+        </Grid.Row>
+      )}
       <Grid.Row>
-        {loading
-          ? Array.from(Array(100)).map((el, i) => <ItemSkeleton key={i}/>)
+        {items.length === 0
+          ? Array.from(Array(100)).map((el, i) => <ItemCardSkeleton key={i} />)
           : items.map((item) => (
-              <Item
+              <ItemCard
                 key={item.id}
                 id={item.id}
                 by={item.by}
@@ -42,7 +48,6 @@ const HomePage = () => {
                 score={item.score}
                 title={item.title}
                 descendants={item.descendants}
-                loading={loading}
               />
             ))}
       </Grid.Row>
@@ -50,4 +55,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default Home;

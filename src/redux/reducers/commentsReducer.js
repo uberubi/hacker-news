@@ -5,7 +5,7 @@ import {
 } from "../constants/constants";
 
 let initialState = {
-  comments: {},
+  comments: null,
   loading: false,
 };
 
